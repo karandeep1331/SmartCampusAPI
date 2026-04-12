@@ -1,0 +1,79 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package com.mycompany.smartcampusapi.Resource;
+import com.mycompany.smartcampusapi.Model.Room;
+import com.mycompany.smartcampusapi.Exception.RoomNotEmptyException;
+import javax.ws.rs.*;
+import javax.ws.rs.core.*;
+import java.util.*;
+
+/**
+ *
+ * @author karandeep Singh Jalf
+ */
+
+@Path("/rooms")
+@Produces(MediaType.APPLICATION_JSON)
+@Consumes(MediaType.APPLICATION_JSON)
+public class RoomResource {
+
+    public static Map<String, Room> rooms = new HashMap<>();
+
+
+    @GET
+    public Collection<Room> getAllRooms() {
+        return rooms.values();
+    }
+
+    @GET
+    @Path("/{id}")
+    public Response getRoom(@PathParam("id") String id) {
+        Room room = rooms.get(id);
+
+        if (room == null) {
+            return Response.status(Response.Status.NOT_FOUND)
+                    .entity("Room not found")
+                    .build();
+        }
+
+        return Response.ok(room).build();
+    }
+
+    // CREATE room
+    @POST
+    public Response createRoom(Room room) {
+        if (room.getId() == null || room.getId().isEmpty()) {
+            return Response.status(Response.Status.BAD_REQUEST)
+                    .entity("Room ID is required")
+                    .build();
+        }
+
+        rooms.put(room.getId(), room);
+
+        return Response.status(Response.Status.CREATED)
+                .entity(room)
+                .build();
+    }
+
+    @DELETE
+    @Path("/{roomid}")
+    public Response deleteRoom(@PathParam("roomid") String id) {
+        Room room = rooms.get(id);
+
+        if (room == null) {
+            return Response.status(Response.Status.NOT_FOUND)
+                    .entity("Room not found")
+                    .build();
+        }
+
+        if (room.getSensorIds() != null && !room.getSensorIds().isEmpty()) {
+            throw new RoomNotEmptyException("Room has sensors assigned");
+        }
+
+        rooms.remove(id);
+
+        return Response.ok("Room deleted").build();
+    }
+}
