@@ -15,13 +15,15 @@ import java.util.*;
  *
  * @author karandeep Singh Jalf
  */
+
+
 @Path("/sensors")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 public class SensorResource {
 
-
-    private static Map<String, Sensor> sensors = new HashMap<>();
+ 
+    public static Map<String, Sensor> sensors = new HashMap<>();
 
     @GET
     public Collection<Sensor> getSensors(@QueryParam("type") String type) {
@@ -43,7 +45,6 @@ public class SensorResource {
     @POST
     public Response createSensor(Sensor sensor) {
 
-        // ❗ CHECK: room must exist
         Room room = RoomResource.rooms.get(sensor.getRoomId());
 
         if (room == null) {
@@ -62,6 +63,7 @@ public class SensorResource {
                 .build();
     }
 
+
     @GET
     @Path("/{id}")
     public Response getSensor(@PathParam("id") String id) {
@@ -74,5 +76,9 @@ public class SensorResource {
         }
 
         return Response.ok(sensor).build();
+    }
+    @Path("/{id}/readings")
+    public SensorReadingResource getReadingResource(@PathParam("id") String id) {
+        return new SensorReadingResource(id);
     }
 }

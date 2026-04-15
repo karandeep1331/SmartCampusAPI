@@ -3,8 +3,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package com.mycompany.smartcampusapi.Resource;
+
 import com.mycompany.smartcampusapi.Model.Room;
 import com.mycompany.smartcampusapi.Exception.RoomNotEmptyException;
+
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
 import java.util.*;
@@ -14,6 +16,8 @@ import java.util.*;
  * @author karandeep Singh Jalf
  */
 
+
+
 @Path("/rooms")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
@@ -21,20 +25,22 @@ public class RoomResource {
 
     public static Map<String, Room> rooms = new HashMap<>();
 
-
+    // GET all rooms
     @GET
     public Collection<Room> getAllRooms() {
         return rooms.values();
     }
 
+    // GET room by ID
     @GET
     @Path("/{id}")
     public Response getRoom(@PathParam("id") String id) {
+
         Room room = rooms.get(id);
 
         if (room == null) {
             return Response.status(Response.Status.NOT_FOUND)
-                    .entity("Room not found")
+                    .entity(Map.of("error", "Room not found"))
                     .build();
         }
 
@@ -44,9 +50,17 @@ public class RoomResource {
     // CREATE room
     @POST
     public Response createRoom(Room room) {
+
         if (room.getId() == null || room.getId().isEmpty()) {
             return Response.status(Response.Status.BAD_REQUEST)
-                    .entity("Room ID is required")
+                    .entity(Map.of("error", "Room ID is required"))
+                    .build();
+        }
+
+      
+        if (rooms.containsKey(room.getId())) {
+            return Response.status(Response.Status.CONFLICT)
+                    .entity(Map.of("error", "Room already exists"))
                     .build();
         }
 
@@ -57,14 +71,16 @@ public class RoomResource {
                 .build();
     }
 
+    // DELETE room
     @DELETE
-    @Path("/{roomid}")
-    public Response deleteRoom(@PathParam("roomid") String id) {
+    @Path("/{id}") 
+    public Response deleteRoom(@PathParam("id") String id) {
+
         Room room = rooms.get(id);
 
         if (room == null) {
             return Response.status(Response.Status.NOT_FOUND)
-                    .entity("Room not found")
+                    .entity(Map.of("error", "Room not found"))
                     .build();
         }
 
@@ -73,7 +89,6 @@ public class RoomResource {
         }
 
         rooms.remove(id);
-
-        return Response.ok("Room deleted").build();
+        return Response.noContent().build();
     }
 }
