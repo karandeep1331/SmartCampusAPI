@@ -1,4 +1,4 @@
-package com.mycompany.smartcampusapi;
+package com.mycompany.smartcampus;
 
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;

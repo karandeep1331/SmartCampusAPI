@@ -2,13 +2,15 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.mycompany.smartcampusapi.filter;
+package com.mycompany.smartcampus.filter;
+
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.container.ContainerRequestFilter;
 import javax.ws.rs.container.ContainerResponseContext;
 import javax.ws.rs.container.ContainerResponseFilter;
 import javax.ws.rs.ext.Provider;
 import java.io.IOException;
+import java.util.logging.Logger;
 /**
  *
  * @author karandeep Singh Jalf
@@ -16,22 +18,18 @@ import java.io.IOException;
 @Provider
 public class LoggingFilter implements ContainerRequestFilter, ContainerResponseFilter {
 
-    @Override
+    private static final Logger LOGGER = Logger.getLogger(LoggingFilter.class.getName());
+
     public void filter(ContainerRequestContext requestContext) throws IOException {
-        System.out.println("Incoming Request");
-        System.out.println("Method: " + requestContext.getMethod());
-        System.out.println("Path: " + requestContext.getUriInfo().getPath());
-        System.out.println("Headers: " + requestContext.getHeaders());
+        LOGGER.info("--- Incoming Request ---");
+        LOGGER.info("Method: " + requestContext.getMethod());
+        LOGGER.info("URI   : " + requestContext.getUriInfo().getAbsolutePath());
     }
-   
 
     @Override
     public void filter(ContainerRequestContext requestContext,
                        ContainerResponseContext responseContext) throws IOException {
-
-        System.out.println("utgoing Response");
-        System.out.println("Status: " + responseContext.getStatus());
-        System.out.println("Headers: " + responseContext.getHeaders());
+        LOGGER.info("--- Outgoing Response ---");
+        LOGGER.info("Status: " + responseContext.getStatus());
     }
 }
-

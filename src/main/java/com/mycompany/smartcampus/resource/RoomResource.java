@@ -2,10 +2,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.mycompany.smartcampusapi.Resource;
+package com.mycompany.smartcampus.resource;
 
-import com.mycompany.smartcampusapi.Model.Room;
-import com.mycompany.smartcampusapi.Exception.RoomNotEmptyException;
+import com.mycompany.smartcampus.model.Room;
+import com.mycompany.smartcampus.exception.RoomNotEmptyException;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
@@ -73,7 +73,7 @@ public class RoomResource {
 
     // DELETE room
     @DELETE
-    @Path("/{id}") 
+    @Path("/{roomid}") 
     public Response deleteRoom(@PathParam("id") String id) {
 
         Room room = rooms.get(id);
