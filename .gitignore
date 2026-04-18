@@ -1,0 +1,16 @@
+# Maven build output
+target/
+
+# Compiled Java files
+*.class
+
+# NetBeans private settings
+nbproject/private/
+
+# Build folders
+build/
+dist/
+
+# OS junk files
+.DS_Store
+Thumbs.db
