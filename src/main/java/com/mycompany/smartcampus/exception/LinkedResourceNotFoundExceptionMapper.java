@@ -15,10 +15,11 @@ import javax.ws.rs.ext.Provider;
 public class LinkedResourceNotFoundExceptionMapper implements ExceptionMapper<LinkedResourceNotFoundException> {
 
     @Override
-    public Response toResponse(LinkedResourceNotFoundException ex) {
-        return Response.status(422)
-            .entity(new ErrorMessage(ex.getMessage(), 422, "docs/error"))
-                .build();
-    }
+    public Response toResponse(LinkedResourceNotFoundException exception){
+        ErrorMessage errorMessage = new ErrorMessage(
+                exception.getMessage(),422,
+                "docs/error");
+        
+        return Response.status(422).entity(errorMessage).build();
+    }   
 }
-

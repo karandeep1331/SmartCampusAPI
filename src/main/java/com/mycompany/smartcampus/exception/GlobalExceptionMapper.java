@@ -20,7 +20,7 @@ public class GlobalExceptionMapper implements ExceptionMapper<Throwable> {
     @Override
     public Response toResponse(Throwable ex) {
         return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-                .entity(new ErrorMessage("Internal server error", 500, "docs/error"))
+                .entity(new ErrorMessage("Unexpected error", 500, "docs/error"))
                 .build();
     }
 }

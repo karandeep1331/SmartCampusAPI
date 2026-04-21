@@ -21,8 +21,8 @@ public class RoomNotEmptyExceptionMapper implements ExceptionMapper<RoomNotEmpty
 
         ErrorMessage error = new ErrorMessage(
                 ex.getMessage(), 
-                400,
-                "docs/room-not-empty"
+                409,
+                "docs/error/room-not-empty"
         );
 
              return Response.status(Response.Status.CONFLICT)
