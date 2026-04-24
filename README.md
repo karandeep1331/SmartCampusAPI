@@ -3,7 +3,7 @@
 # 0verview
 I have Developing a API for a Smart Campus system using Java and JAX-RS, the application manages resources such as rooms and sensors through HTTP methods like GET and POST. It requires setting up a Maven project, creating model and resource classes, and ensuring proper handling of requests with suitable responses and validation. And testing the system of the GET and POST with postman application.
 
-Run & Instructions
+# Run & Instructions
 1. Clone the project ```https://github.com/karandeep1331/SmartCampusAPI.git```
 2. Configure the ```pom.xml``` and tomcat server
 3. Clean & build the project
